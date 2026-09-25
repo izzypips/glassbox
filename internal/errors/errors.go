@@ -266,6 +266,19 @@ func WrapAllRPCFailed() error {
 	return &ErstError{
 		Code:    ErstAllRPCFailed,
 		Message: "all RPC endpoints failed",
+		Hint: "All configured RPC endpoints failed. Provide a working endpoint with --rpc-url <url>, " +
+			"run 'glassbox doctor' for a full environment check, or check 'glassbox status --network <name>'.",
+	}
+}
+
+// WrapAllRPCFailedWithDiagnostics wraps an all-endpoints-failed condition and
+// embeds the failure summary as part of the remediation hint so JSON output
+// carries the diagnostic context.
+func WrapAllRPCFailedWithDiagnostics(summary string) error {
+	return &ErstError{
+		Code:    ErstAllRPCFailed,
+		Message: "all RPC endpoints failed",
+		Hint:    summary,
 	}
 }
 
